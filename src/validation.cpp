@@ -1323,7 +1323,7 @@ CAmount GetBlockSubsidy(int nHeight, const Consensus::Params& consensusParams)
 {
     // M593 consensus schedule:
     // - 90-day slow start at one-minute block spacing (129,600 blocks).
-    // - Steady first-era reward: 138.63588399 M593.
+    // - Steady first-era reward: 138.63591933 M593.
     // - Halving every 2,000,000 blocks.
     // The slow start reduces early concentration while preserving the planned
     // long-term mining allocation as closely as whole base units permit.

@@ -1328,7 +1328,7 @@ CAmount GetBlockSubsidy(int nHeight, const Consensus::Params& consensusParams)
     // The slow start reduces early concentration while preserving the planned
     // long-term mining allocation as closely as whole base units permit.
     static const int M593_SLOW_START_BLOCKS = 129600;
-    static const CAmount M593_BASE_SUBSIDY = 13863588399;
+    static const CAmount M593_BASE_SUBSIDY = 13863591933;
 
     if (nHeight <= 0)
         return 0;

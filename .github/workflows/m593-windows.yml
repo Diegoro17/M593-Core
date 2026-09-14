@@ -37,13 +37,13 @@ jobs:
           update-alternatives --set x86_64-w64-mingw32-gcc /usr/bin/x86_64-w64-mingw32-gcc-posix
 
       - name: Build deterministic dependencies
-        run: make -C depends HOST=x86_64-w64-mingw32 -j2
+        run: make -C depends HOST=x86_64-w64-mingw32 NO_QT=1 -j2
 
       - name: Configure M593 Core
         run: |
           ./autogen.sh
           CONFIG_SITE="$PWD/depends/x86_64-w64-mingw32/share/config.site" \
-            ./configure --prefix=/
+            ./configure --prefix=/ --without-gui
 
       - name: Compile
         run: make -j2

@@ -9,7 +9,7 @@
 
 #include <stdint.h>
 
-/** Amount in corbies (Can be negative) */
+/** Amount in micos, the smallest M593 unit (can be negative). */
 typedef int64_t CAmount;
 
 static const CAmount COIN = 100000000;
@@ -17,14 +17,13 @@ static const CAmount CENT = 1000000;
 
 /** No amount larger than this (in satoshi) is valid.
  *
- * Note that this constant is *not* the total money supply, which in Raven
- * currently happens to be less than 21,000,000,000 RVN for various reasons, but
- * rather a sanity check. As this sanity check is used by consensus-critical
+ * M593 has eight decimal places. This consensus-critical bound is also the
+ * maximum intended monetary supply. As this sanity check is used by consensus-critical
  * validation code, the exact value of the MAX_MONEY constant is consensus
  * critical; in unusual circumstances like a(nother) overflow bug that allowed
  * for the creation of coins out of thin air modification could lead to a fork.
  * */
-static const CAmount MAX_MONEY = 21000000000 * COIN;
+static const CAmount MAX_MONEY = 593000000 * COIN;
 inline bool MoneyRange(const CAmount& nValue) { return (nValue >= 0 && nValue <= MAX_MONEY); }
 
 #endif //  RAVEN_AMOUNT_H

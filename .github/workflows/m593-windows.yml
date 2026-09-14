@@ -43,17 +43,20 @@ jobs:
         run: |
           ./autogen.sh
           CONFIG_SITE="$PWD/depends/x86_64-w64-mingw32/share/config.site" \
-            ./configure --prefix=/ --without-gui --without-libs --with-tx --disable-tests --disable-bench
+            ./configure --prefix=/ --without-gui --without-libs --disable-tests --disable-bench
 
-      - name: Compile
+      - name: Compile daemon and CLI
         run: make -j2
 
-      - name: Collect executables
+      - name: Collect M593 executables
         run: |
           mkdir -p m593-windows-x64
-          find src -maxdepth 2 -type f \( -name 'm593*.exe' -o -name 'test_m593*.exe' \) \
-            -exec cp {} m593-windows-x64/ \;
-          test -n "$(find m593-windows-x64 -type f -name 'm593*.exe' -print -quit)"
+          test -f src/ravend.exe
+          test -f src/raven-cli.exe
+          cp src/ravend.exe m593-windows-x64/m593d.exe
+          cp src/raven-cli.exe m593-windows-x64/m593-cli.exe
+          x86_64-w64-mingw32-strip m593-windows-x64/*.exe
+          ls -lh m593-windows-x64/
 
       - name: Upload Windows binaries
         uses: actions/upload-artifact@v4

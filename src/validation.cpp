@@ -1321,14 +1321,30 @@ bool ReadBlockFromDisk(CBlock& block, const CBlockIndex* pindex, const Consensus
 
 CAmount GetBlockSubsidy(int nHeight, const Consensus::Params& consensusParams)
 {
+    // M593 consensus schedule:
+    // - 90-day slow start at one-minute block spacing (129,600 blocks).
+    // - Steady first-era reward: 138.63588399 M593.
+    // - Halving every 2,000,000 blocks.
+    // The slow start reduces early concentration while preserving the planned
+    // long-term mining allocation as closely as whole base units permit.
+    static const int M593_SLOW_START_BLOCKS = 129600;
+    static const CAmount M593_BASE_SUBSIDY = 13863588399;
+
+    if (nHeight <= 0)
+        return 0;
+
     int halvings = nHeight / consensusParams.nSubsidyHalvingInterval;
     // Force block reward to zero when right shift is undefined.
     if (halvings >= 64)
         return 0;
 
-    CAmount nSubsidy = 5000 * COIN;
-    // Subsidy is cut in half every 2,100,000 blocks which will occur approximately every 4 years.
+    CAmount nSubsidy = M593_BASE_SUBSIDY;
     nSubsidy >>= halvings;
+
+    if (nHeight < M593_SLOW_START_BLOCKS) {
+        nSubsidy = (nSubsidy * nHeight) / M593_SLOW_START_BLOCKS;
+    }
+
     return nSubsidy;
 }
 

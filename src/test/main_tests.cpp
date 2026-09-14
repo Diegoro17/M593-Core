@@ -14,55 +14,52 @@
 
 BOOST_FIXTURE_TEST_SUITE(main_tests, TestingSetup)
 
-    static void TestBlockSubsidyHalvings(const Consensus::Params &consensusParams)
+    BOOST_AUTO_TEST_CASE(m593_block_subsidy_test)
     {
-        int maxHalvings = 64;
-        CAmount nInitialSubsidy = 5000 * COIN;
-
-        CAmount nPreviousSubsidy = nInitialSubsidy * 2; // for height == 0
-        BOOST_CHECK_EQUAL(nPreviousSubsidy, nInitialSubsidy * 2);
-        for (int nHalvings = 0; nHalvings < maxHalvings; nHalvings++)
-        {
-            int nHeight = nHalvings * consensusParams.nSubsidyHalvingInterval;
-            CAmount nSubsidy = GetBlockSubsidy(nHeight, consensusParams);
-            BOOST_CHECK(nSubsidy <= nInitialSubsidy);
-            BOOST_CHECK_EQUAL(nSubsidy, nPreviousSubsidy / 2);
-            nPreviousSubsidy = nSubsidy;
-        }
-        BOOST_CHECK_EQUAL(GetBlockSubsidy(maxHalvings * consensusParams.nSubsidyHalvingInterval, consensusParams), 0);
-    }
-
-    static void TestBlockSubsidyHalvings(int nSubsidyHalvingInterval)
-    {
-        Consensus::Params consensusParams;
-        consensusParams.nSubsidyHalvingInterval = nSubsidyHalvingInterval;
-        TestBlockSubsidyHalvings(consensusParams);
-    }
-
-    BOOST_AUTO_TEST_CASE(block_subsidy_test)
-    {
-        BOOST_TEST_MESSAGE("Running Block Subsidy Test");
+        BOOST_TEST_MESSAGE("Running M593 Block Subsidy Test");
 
         const auto chainParams = CreateChainParams(CBaseChainParams::MAIN);
-        TestBlockSubsidyHalvings(chainParams->GetConsensus()); // As in main
-        TestBlockSubsidyHalvings(240); // As in regtest
-        TestBlockSubsidyHalvings(1000); // Just another interval
+        const Consensus::Params& consensus = chainParams->GetConsensus();
+        const CAmount baseSubsidy = 13863591933;
+
+        BOOST_CHECK_EQUAL(consensus.nSubsidyHalvingInterval, 2000000);
+        BOOST_CHECK_EQUAL(GetBlockSubsidy(0, consensus), 0);
+        BOOST_CHECK_EQUAL(GetBlockSubsidy(1, consensus), baseSubsidy / 129600);
+        BOOST_CHECK(GetBlockSubsidy(64800, consensus) < baseSubsidy);
+        BOOST_CHECK_EQUAL(GetBlockSubsidy(129600, consensus), baseSubsidy);
+        BOOST_CHECK_EQUAL(GetBlockSubsidy(1999999, consensus), baseSubsidy);
+        BOOST_CHECK_EQUAL(GetBlockSubsidy(2000000, consensus), baseSubsidy / 2);
+        BOOST_CHECK_EQUAL(GetBlockSubsidy(64 * consensus.nSubsidyHalvingInterval, consensus), 0);
     }
 
-    BOOST_AUTO_TEST_CASE(subsidy_limit_test)
+    BOOST_AUTO_TEST_CASE(m593_mining_allocation_limit_test)
     {
-        BOOST_TEST_MESSAGE("Running Subsidy Limit Test");
+        BOOST_TEST_MESSAGE("Running M593 Mining Allocation Limit Test");
 
         const auto chainParams = CreateChainParams(CBaseChainParams::MAIN);
-        CAmount nSum = 0;
-        for (int nHeight = 0; nHeight < 14000000; nHeight += 1000)
-        {
-            CAmount nSubsidy = GetBlockSubsidy(nHeight, chainParams->GetConsensus());
-            BOOST_CHECK(nSubsidy <= 5000 * COIN);
-            nSum += nSubsidy * 1000;
-            BOOST_CHECK(MoneyRange(nSum));
+        const Consensus::Params& consensus = chainParams->GetConsensus();
+        const int slowStartBlocks = 129600;
+        CAmount total = 0;
+
+        for (int height = 1; height < slowStartBlocks; ++height) {
+            total += GetBlockSubsidy(height, consensus);
         }
-        BOOST_CHECK_EQUAL(nSum, (int64_t)2078125000000000000ULL);
+
+        total += GetBlockSubsidy(slowStartBlocks, consensus) *
+                 (consensus.nSubsidyHalvingInterval - slowStartBlocks);
+
+        for (int halving = 1; halving < 64; ++halving) {
+            const int height = halving * consensus.nSubsidyHalvingInterval;
+            const CAmount subsidy = GetBlockSubsidy(height, consensus);
+            if (subsidy == 0)
+                break;
+            total += subsidy * consensus.nSubsidyHalvingInterval;
+        }
+
+        const CAmount miningAllocation = 545560000LL * COIN;
+        BOOST_CHECK(total <= miningAllocation);
+        BOOST_CHECK(miningAllocation - total < COIN);
+        BOOST_CHECK(MoneyRange(total));
     }
 
     bool ReturnFalse()

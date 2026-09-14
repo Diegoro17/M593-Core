@@ -1,0 +1,60 @@
+name: M593 Windows build
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - m593-dev
+
+permissions:
+  contents: read
+
+jobs:
+  windows-x64:
+    runs-on: ubuntu-24.04
+    container: ubuntu:20.04
+    timeout-minutes: 360
+
+    steps:
+      - name: Install checkout prerequisites
+        run: |
+          apt-get update
+          DEBIAN_FRONTEND=noninteractive apt-get install -y ca-certificates git
+
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Install cross-compiler
+        run: |
+          DEBIAN_FRONTEND=noninteractive apt-get install -y \
+            build-essential libtool autotools-dev automake pkg-config \
+            bsdmainutils curl nsis python3 \
+            g++-mingw-w64-x86-64 mingw-w64-x86-64-dev
+          update-alternatives --set x86_64-w64-mingw32-g++ /usr/bin/x86_64-w64-mingw32-g++-posix
+          update-alternatives --set x86_64-w64-mingw32-gcc /usr/bin/x86_64-w64-mingw32-gcc-posix
+
+      - name: Build deterministic dependencies
+        run: make -C depends HOST=x86_64-w64-mingw32 -j2
+
+      - name: Configure M593 Core
+        run: |
+          ./autogen.sh
+          CONFIG_SITE="$PWD/depends/x86_64-w64-mingw32/share/config.site" \
+            ./configure --prefix=/
+
+      - name: Compile
+        run: make -j2
+
+      - name: Collect executables
+        run: |
+          mkdir -p m593-windows-x64
+          find src -maxdepth 2 -type f \( -name 'm593*.exe' -o -name 'test_m593*.exe' \) \
+            -exec cp {} m593-windows-x64/ \;
+          test -n "$(find m593-windows-x64 -type f -name 'm593*.exe' -print -quit)"
+
+      - name: Upload Windows binaries
+        uses: actions/upload-artifact@v4
+        with:
+          name: M593-Core-windows-x64
+          path: m593-windows-x64/
+          if-no-files-found: error

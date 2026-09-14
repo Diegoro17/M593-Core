@@ -5,6 +5,9 @@ on:
   push:
     branches:
       - m593-dev
+  pull_request:
+    branches:
+      - master
 
 permissions:
   contents: read

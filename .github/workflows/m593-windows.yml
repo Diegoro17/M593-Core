@@ -43,7 +43,7 @@ jobs:
         run: |
           ./autogen.sh
           CONFIG_SITE="$PWD/depends/x86_64-w64-mingw32/share/config.site" \
-            ./configure --prefix=/ --without-gui
+            ./configure --prefix=/ --without-gui --without-libs --with-tx --disable-tests --disable-bench
 
       - name: Compile
         run: make -j2

@@ -36,16 +36,16 @@ jobs:
           update-alternatives --set x86_64-w64-mingw32-g++ /usr/bin/x86_64-w64-mingw32-g++-posix
           update-alternatives --set x86_64-w64-mingw32-gcc /usr/bin/x86_64-w64-mingw32-gcc-posix
 
-      - name: Build deterministic dependencies
-        run: make -C depends HOST=x86_64-w64-mingw32 NO_QT=1 -j2
+      - name: Build deterministic dependencies with Qt
+        run: make -C depends HOST=x86_64-w64-mingw32 -j2
 
       - name: Configure M593 Core
         run: |
           ./autogen.sh
           CONFIG_SITE="$PWD/depends/x86_64-w64-mingw32/share/config.site" \
-            ./configure --prefix=/ --without-gui --without-libs --disable-tests --disable-bench
+            ./configure --prefix=/ --with-gui=qt5 --without-libs --disable-tests --disable-bench
 
-      - name: Compile daemon and CLI
+      - name: Compile wallet, daemon and CLI
         run: make -j2
 
       - name: Collect M593 executables
@@ -53,8 +53,10 @@ jobs:
           mkdir -p m593-windows-x64
           test -f src/ravend.exe
           test -f src/raven-cli.exe
+          test -f src/qt/raven-qt.exe
           cp src/ravend.exe m593-windows-x64/m593d.exe
           cp src/raven-cli.exe m593-windows-x64/m593-cli.exe
+          cp src/qt/raven-qt.exe m593-windows-x64/m593-qt.exe
           x86_64-w64-mingw32-strip m593-windows-x64/*.exe
           ls -lh m593-windows-x64/
 

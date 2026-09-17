@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="ocean" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0F766E"/>
+      <stop offset="1" stop-color="#071F2B"/>
+    </linearGradient>
+  </defs>
+  <circle cx="256" cy="256" r="238" fill="#06161E" stroke="#E4BC62" stroke-width="18"/>
+  <circle cx="256" cy="256" r="208" fill="url(#ocean)" stroke="#FFF7E2" stroke-opacity=".18" stroke-width="3"/>
+  <!-- Andes: Chimborazo-inspired geometric horizon -->
+  <path d="M92 301 L173 223 L218 260 L284 165 L421 301 Z" fill="#0B1720" opacity=".92"/>
+  <path d="M224 251 L284 165 L342 229 L315 219 L287 239 L263 216 Z" fill="#FFF7E2" opacity=".94"/>
+  <!-- Equator line and a restrained Ecuador tricolor -->
+  <path d="M77 308 H435" stroke="#F5C451" stroke-width="12" stroke-linecap="round"/>
+  <path d="M91 326 H421" stroke="#2456A6" stroke-width="7" stroke-linecap="round"/>
+  <path d="M107 340 H405" stroke="#C83D42" stroke-width="5" stroke-linecap="round"/>
+  <text x="256" y="414" fill="#FFF7E2" font-family="DejaVu Sans, Arial, sans-serif" font-size="82" font-weight="700" text-anchor="middle" letter-spacing="5">M593</text>
+</svg>

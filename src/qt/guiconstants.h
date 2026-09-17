@@ -38,26 +38,26 @@ static const bool DEFAULT_SPLASHSCREEN = true;
 
 #define COLOR_WALLETFRAME_SHADOW QColor(0,0,0,71)
 
-/* Color of labels */
-#define COLOR_LABELS QColor("#4960ad")
+/* M593 Ecuador identity: Pacific navy, equatorial gold and Andean teal. */
+#define COLOR_LABELS QColor("#0F766E")
 
 /** LIGHT MODE */
 /* Background color, very light gray */
 #define COLOR_BACKGROUND_LIGHT QColor("#fbfbfe")
-/* Ravencoin dark orange */
-#define COLOR_DARK_ORANGE QColor("#f05239")
-/* Ravencoin light orange */
-#define COLOR_LIGHT_ORANGE QColor("#f79433")
-/* Ravencoin dark blue */
-#define COLOR_DARK_BLUE QColor("#384192")
-/* Ravencoin light blue */
-#define COLOR_LIGHT_BLUE QColor("#5874cf")
+/* Equatorial gold */
+#define COLOR_DARK_ORANGE QColor("#C8942E")
+/* Warm highland sunlight */
+#define COLOR_LIGHT_ORANGE QColor("#E4BC62")
+/* Pacific navy */
+#define COLOR_DARK_BLUE QColor("#071F2B")
+/* Andean teal */
+#define COLOR_LIGHT_BLUE QColor("#0F766E")
 /* Ravencoin asset text */
 #define COLOR_ASSET_TEXT QColor(255, 255, 255)
 /* Ravencoin shadow color - light mode */
 #define COLOR_SHADOW_LIGHT QColor("#e1e6f3")
 /* Toolbar not selected text color */
-#define COLOR_TOOLBAR_NOT_SELECTED_TEXT QColor("#a5b7f3")
+#define COLOR_TOOLBAR_NOT_SELECTED_TEXT QColor("#B9CFCA")
 /* Toolbar selected text color */
 #define COLOR_TOOLBAR_SELECTED_TEXT COLOR_WHITE
 /* Send entries background color */
@@ -66,31 +66,31 @@ static const bool DEFAULT_SPLASHSCREEN = true;
 
 /** DARK MODE */
 /* Widget background color, dark mode */
-#define COLOR_WIDGET_BACKGROUND_DARK QColor("#1c2535")
+#define COLOR_WIDGET_BACKGROUND_DARK QColor("#0B1720")
 /* Ravencoin shadow color - dark mode */
-#define COLOR_SHADOW_DARK QColor("#0c1b3d")
+#define COLOR_SHADOW_DARK QColor("#020B10")
 /* Ravencoin Light blue - dark mode - dark mode */
-#define COLOR_LIGHT_BLUE_DARK QColor("#1e2636")
+#define COLOR_LIGHT_BLUE_DARK QColor("#102B31")
 /* Ravencoin Dark blue - dark mode - dark mode */
-#define COLOR_DARK_BLUE_DARK QColor("#0b1018")
+#define COLOR_DARK_BLUE_DARK QColor("#06161E")
 /* Pricing widget background color */
-#define COLOR_PRICING_WIDGET QColor("#161e2d")
+#define COLOR_PRICING_WIDGET QColor("#0A2028")
 /* Ravencoin dark mode administrator background color */
 #define COLOR_ADMIN_CARD_DARK COLOR_BLACK
 /* Ravencoin dark mode regular asset background color */
-#define COLOR_REGULAR_CARD_DARK_BLUE_DARK_MODE QColor("#06132a")
+#define COLOR_REGULAR_CARD_DARK_BLUE_DARK_MODE QColor("#08242B")
 /* Ravencoin dark mode regular asset background color */
-#define COLOR_REGULAR_CARD_LIGHT_BLUE_DARK_MODE QColor("#0e1b3b")
+#define COLOR_REGULAR_CARD_LIGHT_BLUE_DARK_MODE QColor("#0F3B3A")
 /* Toolbar not selected text color */
-#define COLOR_TOOLBAR_NOT_SELECTED_TEXT_DARK_MODE QColor("#6c80c5")
+#define COLOR_TOOLBAR_NOT_SELECTED_TEXT_DARK_MODE QColor("#8FB5AE")
 /* Toolbar selected text color */
-#define COLOR_TOOLBAR_SELECTED_TEXT_DARK_MODE QColor("#c5ccdf")
+#define COLOR_TOOLBAR_SELECTED_TEXT_DARK_MODE QColor("#FFF7E2")
 /* Send entries background color dark mode */
-#define COLOR_SENDENTRIES_BACKGROUND_DARK QColor("#1c2535")
+#define COLOR_SENDENTRIES_BACKGROUND_DARK QColor("#0B1720")
 
 
 /* Ravencoin label color as a string */
-#define STRING_LABEL_COLOR "color: #4960ad"
+#define STRING_LABEL_COLOR "color: #0F766E"
 #define STRING_LABEL_COLOR_WARNING "color: #FF8080"
 
 
@@ -114,13 +114,13 @@ static const int MAX_URI_LENGTH = 255;
 /* Number of frames in spinner animation */
 #define SPINNER_FRAMES 36
 
-#define QAPP_ORG_NAME "Raven"
-#define QAPP_ORG_DOMAIN "raven.org"
-#define QAPP_APP_NAME_DEFAULT "Raven-Qt"
-#define QAPP_APP_NAME_TESTNET "Raven-Qt-testnet"
+#define QAPP_ORG_NAME "M593"
+#define QAPP_ORG_DOMAIN "m593.org"
+#define QAPP_APP_NAME_DEFAULT "M593-Wallet"
+#define QAPP_APP_NAME_TESTNET "M593-Wallet-testnet"
 
 /* Default third party browser urls */
-#define DEFAULT_THIRD_PARTY_BROWSERS "https://api.ravencoin.org/tx/%s|https://rvn.cryptoscope.io/tx/?txid=%s|https://blockbook.ravencoin.org/tx/%s|https://explorer.mangofarmassets.com/tx/%s|https://www.assetsexplorer.com/tx/%s|https://explorer.ravenland.org/tx/%s"
+#define DEFAULT_THIRD_PARTY_BROWSERS ""
 
 /* Default IPFS viewer */
 #define DEFAULT_IPFS_VIEWER "https://ipfs.io/ipfs/%s"

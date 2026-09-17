@@ -335,7 +335,7 @@ void RavenGUI::createActions()
     tabGroup->addAction(overviewAction);
 
     sendCoinsAction = new QAction(platformStyle->SingleColorIconOnOff(":/icons/send_selected", ":/icons/send"), tr("&Send"), this);
-    sendCoinsAction->setStatusTip(tr("Send coins to a Raven address"));
+    sendCoinsAction->setStatusTip(tr("Enviar M593 de forma segura a otra dirección"));
     sendCoinsAction->setToolTip(sendCoinsAction->statusTip());
     sendCoinsAction->setCheckable(true);
     sendCoinsAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_2));
@@ -347,7 +347,7 @@ void RavenGUI::createActions()
     sendCoinsMenuAction->setToolTip(sendCoinsMenuAction->statusTip());
 
     receiveCoinsAction = new QAction(platformStyle->SingleColorIconOnOff(":/icons/receiving_addresses_selected", ":/icons/receiving_addresses"), tr("&Receive"), this);
-    receiveCoinsAction->setStatusTip(tr("Request payments (generates QR codes and raven: URIs)"));
+    receiveCoinsAction->setStatusTip(tr("Recibir M593 mediante una dirección o código QR"));
     receiveCoinsAction->setToolTip(receiveCoinsAction->statusTip());
     receiveCoinsAction->setCheckable(true);
     receiveCoinsAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_3));
@@ -596,13 +596,12 @@ void RavenGUI::createToolBars()
         labelToolbar->setContentsMargins(0,0,0,50);
         labelToolbar->setAlignment(Qt::AlignLeft);
 
-        if(IconsOnly) {
-            labelToolbar->setPixmap(QPixmap::fromImage(QImage(":/icons/rvntext")));
-        }
-        else {
-            labelToolbar->setPixmap(QPixmap::fromImage(QImage(":/icons/ravencointext")));
-        }
-        labelToolbar->setStyleSheet(".QLabel{background-color: transparent;}");
+        labelToolbar->setText(IconsOnly ? QStringLiteral("M") : QStringLiteral("M593\nECUADOR"));
+        labelToolbar->setStyleSheet(
+            ".QLabel{background-color: transparent; color: #FFF7E2; "
+            "font: 700 24pt 'Open Sans'; letter-spacing: 2px; "
+            "border-bottom: 3px solid #E4BC62; padding: 20px 14px 16px 14px;}"
+        );
 
         /** RVN END */
 
@@ -623,12 +622,10 @@ void RavenGUI::createToolBars()
         m_toolbar->addAction(sendCoinsAction);
         m_toolbar->addAction(receiveCoinsAction);
         m_toolbar->addAction(historyAction);
-        m_toolbar->addAction(createAssetAction);
-        m_toolbar->addAction(transferAssetAction);
-        m_toolbar->addAction(manageAssetAction);
+        // Keep the first M593 release focused on the four essential wallet tasks.
+        // Advanced inherited asset tools remain available in the core for later review.
 //        m_toolbar->addAction(messagingAction);
 //        m_toolbar->addAction(votingAction);
-        m_toolbar->addAction(restrictedAssetAction);
 
         QString openSansFontString = "font: normal 22pt \"Open Sans\";";
         QString normalString = "font: normal 22pt \"Arial\";";
@@ -703,7 +700,7 @@ void RavenGUI::createToolBars()
         labelCurrentMarket->setAlignment(Qt::AlignVCenter);
         labelCurrentMarket->setStyleSheet(STRING_LABEL_COLOR);
         labelCurrentMarket->setFont(currentMarketFont);
-        labelCurrentMarket->setText(tr("Ravencoin Market Price"));
+        labelCurrentMarket->setText(tr("M593 • Desde la mitad del mundo"));
 
         QString currentPriceStyleSheet = ".QLabel{color: %1;}";
         labelCurrentPrice->setContentsMargins(25,0,0,0);
@@ -722,7 +719,7 @@ void RavenGUI::createToolBars()
         comboRvnUnit->setStyleSheet(STRING_LABEL_COLOR);
         comboRvnUnit->setFont(currentMarketFont);
 
-        labelVersionUpdate->setText("<a href=\"https://github.com/RavenProject/Ravencoin/releases\">New Wallet Version Available</a>");
+        labelVersionUpdate->setText("<a href=\"https://github.com/Diegoro17/M593-Core/releases\">New M593 Wallet version available</a>");
         labelVersionUpdate->setTextFormat(Qt::RichText);
         labelVersionUpdate->setTextInteractionFlags(Qt::TextBrowserInteraction);
         labelVersionUpdate->setOpenExternalLinks(true);
@@ -734,8 +731,6 @@ void RavenGUI::createToolBars()
 
         priceLayout->setGeometry(headerWidget->rect());
         priceLayout->addWidget(labelCurrentMarket, 0, Qt::AlignVCenter | Qt::AlignLeft);
-        priceLayout->addWidget(labelCurrentPrice, 0,  Qt::AlignVCenter | Qt::AlignLeft);
-        priceLayout->addWidget(comboRvnUnit, 0 , Qt::AlignBottom| Qt::AlignLeft);
         priceLayout->addStretch();
         priceLayout->addWidget(labelVersionUpdate, 0 , Qt::AlignVCenter | Qt::AlignRight);
 
@@ -807,12 +802,8 @@ void RavenGUI::createToolBars()
         connect(quitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
 
 
-        // Signal change of displayed price units, must get new conversion ratio
-        connect(comboRvnUnit, SIGNAL(activated(int)), this, SLOT(currencySelectionChanged(int)));
-        // Create the timer
-        connect(pricingTimer, SIGNAL(timeout()), this, SLOT(getPriceInfo()));
-        pricingTimer->start(10000);
-        getPriceInfo();
+        // M593 does not publish a market price during development. Avoid displaying
+        // inherited RVN pricing as if it belonged to this network.
         /** RVN END */
 
         // Get the latest Ravencoin release and let the user know if they are using the latest version
@@ -896,7 +887,7 @@ void RavenGUI::createToolBars()
                                            "New Wallet Version Found",
                                            CClientUIInterface::MSG_VERSION | CClientUIInterface::BTN_NO);
                                    if (fRet) {
-                                       QString link = "https://github.com/RavenProject/Ravencoin/releases";
+                                       QString link = "https://github.com/Diegoro17/M593-Core/releases";
                                        QDesktopServices::openUrl(QUrl(link));
                                    }
                                }
@@ -915,13 +906,13 @@ void RavenGUI::createToolBars()
 void RavenGUI::updateIconsOnlyToolbar(bool IconsOnly)
 {
     if(IconsOnly) {
-        labelToolbar->setPixmap(QPixmap::fromImage(QImage(":/icons/rvntext")));
+        labelToolbar->setText(QStringLiteral("M"));
         m_toolbar->setMaximumWidth(65);
         m_toolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
     }
     else {
-        labelToolbar->setPixmap(QPixmap::fromImage(QImage(":/icons/ravencointext")));
-        m_toolbar->setMinimumWidth(labelToolbar->width());
+        labelToolbar->setText(QStringLiteral("M593\nECUADOR"));
+        m_toolbar->setMinimumWidth(255);
         m_toolbar->setMaximumWidth(255);
         m_toolbar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);        
     }
@@ -1893,6 +1884,6 @@ void RavenGUI::mnemonic()
 
 void RavenGUI::getLatestVersion()
 {
-    versionRequest->setUrl(QUrl("https://api.github.com/repos/RavenProject/Ravencoin/releases"));
+    versionRequest->setUrl(QUrl("https://api.github.com/repos/Diegoro17/M593-Core/releases"));
     networkVersionManager->get(*versionRequest);
 }

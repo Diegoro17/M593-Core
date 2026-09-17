@@ -341,3 +341,53 @@ QSlider::sub-page:horizontal{
 QSlider::sub-page:horizontal:disabled{
   background:rgb(80,80,80);
 }
+
+/* M593 Wallet — restrained Ecuadorian identity */
+QMainWindow, QDialog {
+  background-color:#071F2B;
+}
+QPushButton {
+  background-color:#0F766E;
+  color:#FFFFFF;
+  border:1px solid #278C82;
+  border-radius:8px;
+  padding:8px 16px;
+  min-height:20px;
+}
+QPushButton:hover {
+  background-color:#16877D;
+  border-color:#E4BC62;
+}
+QPushButton:pressed {
+  background-color:#0A5F59;
+}
+QPushButton:disabled {
+  background-color:#263B40;
+  color:#718487;
+  border-color:#31494D;
+}
+QLineEdit, QPlainTextEdit, QTextEdit, QSpinBox, QDoubleSpinBox, QComboBox {
+  background-color:#0B1720;
+  color:#F7F3E8;
+  border:1px solid #31565A;
+  border-radius:7px;
+  padding:6px 9px;
+  selection-background-color:#0F766E;
+}
+QLineEdit:focus, QPlainTextEdit:focus, QTextEdit:focus, QSpinBox:focus,
+QDoubleSpinBox:focus, QComboBox:focus {
+  border:1px solid #E4BC62;
+}
+QFrame[frameShape="4"], QFrame[frameShape="5"] {
+  color:#24444A;
+}
+QProgressBar {
+  background-color:#0B1720;
+  border:1px solid #31565A;
+  border-radius:6px;
+  text-align:center;
+}
+QProgressBar::chunk {
+  background-color:#E4BC62;
+  border-radius:5px;
+}

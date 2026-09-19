@@ -5,12 +5,14 @@ QToolTip{
   border-radius:4px;
 }
 QStatusBar{
-  background-color:qlineargradient(x1:0,y1:0,x2:0,y2:1,stop:0 rgba(25,25,25,127),stop:1 rgba(53,53,53,75));
-  color:palette(mid);
+  background-color:#081923;
+  color:#DCE9E7;
+  font-size:10pt;
 }
 QMenuBar{
   background-color:qlineargradient(x1:0,y1:0,x2:0,y2:1,stop:0 rgba(25,25,25,127),stop:1 rgba(53,53,53,75));
   border-bottom:2px solid rgba(25,25,25,75);
+  font-size:10pt;
 }
 QMenuBar::item{
   spacing:2px;
@@ -32,7 +34,7 @@ QMenu{
   border:1px solid palette(shadow);
 }
 QMenu::item{
-  padding:3px 25px 3px 25px;
+  padding:7px 28px 7px 28px;
   border:1px solid transparent;
 }
 QMenu::item:disabled{

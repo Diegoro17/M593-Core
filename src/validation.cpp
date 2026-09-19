@@ -5771,6 +5771,8 @@ void SetEnforcedCoinbase(bool value)
 
 bool AreEnforcedValuesDeployed()
 {
+    if (GetParams().NetworkIDString() == CBaseChainParams::MAIN)
+        return true;
     if (fEnforcedValuesIsActive)
         return true;
 
@@ -5783,6 +5785,8 @@ bool AreEnforcedValuesDeployed()
 
 bool AreCoinbaseCheckAssetsDeployed()
 {
+    if (GetParams().NetworkIDString() == CBaseChainParams::MAIN)
+        return true;
     if (fCheckCoinbaseAssetsIsActive)
         return true;
 
@@ -5795,6 +5799,8 @@ bool AreCoinbaseCheckAssetsDeployed()
 
 bool AreAssetsDeployed()
 {
+    if (GetParams().NetworkIDString() == CBaseChainParams::MAIN)
+        return true;
 
     if (fAssetsIsActive)
         return true;
@@ -5808,6 +5814,8 @@ bool AreAssetsDeployed()
 
 bool IsRip5Active()
 {
+    if (GetParams().NetworkIDString() == CBaseChainParams::MAIN)
+        return true;
     if (fRip5IsActive)
         return true;
 
@@ -5824,6 +5832,8 @@ bool AreMessagesDeployed() {
 }
 
 bool AreTransferScriptsSizeDeployed() {
+    if (GetParams().NetworkIDString() == CBaseChainParams::MAIN)
+        return true;
 
     if (fTransferScriptIsActive)
         return true;

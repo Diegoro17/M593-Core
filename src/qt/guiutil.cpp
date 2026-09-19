@@ -93,11 +93,10 @@ QFont getSubLabelFont()
 {
     QFont labelSubFont;
 #if !defined(Q_OS_MAC)
-    labelSubFont.setFamily("Open Sans");
+    labelSubFont.setFamily("Segoe UI");
 #endif
-    labelSubFont.setWeight(QFont::Weight::ExtraLight);
-    labelSubFont.setLetterSpacing(QFont::SpacingType::AbsoluteSpacing, -0.6);
-    labelSubFont.setPixelSize(14);
+    labelSubFont.setWeight(QFont::Weight::Normal);
+    labelSubFont.setPixelSize(15);
     return labelSubFont;
 }
 
@@ -105,11 +104,10 @@ QFont getSubLabelFontBolded()
 {
     QFont labelSubFont;
 #if !defined(Q_OS_MAC)
-    labelSubFont.setFamily("Open Sans");
+    labelSubFont.setFamily("Segoe UI");
 #endif
     labelSubFont.setWeight(QFont::Weight::Bold);
-    labelSubFont.setLetterSpacing(QFont::SpacingType::AbsoluteSpacing, -0.6);
-    labelSubFont.setPixelSize(14);
+    labelSubFont.setPixelSize(15);
     return labelSubFont;
 }
 
@@ -117,11 +115,10 @@ QFont getTopLabelFontBolded()
 {
     QFont labelTopFont;
 #if !defined(Q_OS_MAC)
-    labelTopFont.setFamily("Open Sans");
+    labelTopFont.setFamily("Segoe UI");
 #endif
     labelTopFont.setWeight(QFont::Weight::Bold);
-    labelTopFont.setLetterSpacing(QFont::SpacingType::AbsoluteSpacing, -0.6);
-    labelTopFont.setPixelSize(18);
+    labelTopFont.setPixelSize(19);
     return labelTopFont;
 }
 
@@ -129,10 +126,9 @@ QFont getTopLabelFont(int weight, int pxsize)
 {
     QFont labelTopFont;
 #if !defined(Q_OS_MAC)
-    labelTopFont.setFamily("Open Sans");
+    labelTopFont.setFamily("Segoe UI");
 #endif
     labelTopFont.setWeight(weight);
-    labelTopFont.setLetterSpacing(QFont::SpacingType::AbsoluteSpacing, -0.6);
     labelTopFont.setPixelSize(pxsize);
     return labelTopFont;
 }
@@ -141,11 +137,10 @@ QFont getTopLabelFont()
 {
     QFont labelTopFont;
 #if !defined(Q_OS_MAC)
-    labelTopFont.setFamily("Open Sans");
+    labelTopFont.setFamily("Segoe UI");
 #endif
-    labelTopFont.setWeight(QFont::Weight::Light);
-    labelTopFont.setLetterSpacing(QFont::SpacingType::AbsoluteSpacing, -0.6);
-    labelTopFont.setPixelSize(18);
+    labelTopFont.setWeight(QFont::Weight::DemiBold);
+    labelTopFont.setPixelSize(19);
     return labelTopFont;
 }
 

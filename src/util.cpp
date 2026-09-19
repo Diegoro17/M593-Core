@@ -549,13 +549,11 @@ void PrintExceptionContinue(const std::exception *pex, const char *pszThread)
 
 fs::path GetDefaultDataDir()
 {
-    // Windows < Vista: C:\Documents and Settings\Username\Application Data\Raven
-    // Windows >= Vista: C:\Users\Username\AppData\Roaming\Raven
-    // Mac: ~/Library/Application Support/M593
-    // Unix: ~/.m593
+    // M593 Chain 1 uses a separate directory so legacy Ravencoin-derived
+    // databases cannot be opened against the new M593 genesis block.
 #ifdef WIN32
     // Windows
-    return GetSpecialFolderPath(CSIDL_APPDATA) / "M593";
+    return GetSpecialFolderPath(CSIDL_APPDATA) / "M593-Chain1";
 #else
     fs::path pathRet;
     char *pszHome = getenv("HOME");
@@ -565,10 +563,10 @@ fs::path GetDefaultDataDir()
         pathRet = fs::path(pszHome);
 #ifdef MAC_OSX
     // Mac
-    return pathRet / "Library/Application Support/M593";
+    return pathRet / "Library/Application Support/M593-Chain1";
 #else
     // Unix
-    return pathRet / ".m593";
+    return pathRet / ".m593-chain1";
 #endif
 #endif
 }

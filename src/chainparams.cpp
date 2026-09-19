@@ -124,7 +124,9 @@ public:
         consensus.nSegwitEnabled = true;
         consensus.nCSVEnabled = true;
         consensus.powLimit = uint256S("00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
-        consensus.kawpowLimit = uint256S("0000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // Estimated starting diff for first 180 kawpow blocks
+        // M593 begins as a small development network. Keep the first KAWPOW
+        // blocks mineable while the public hashrate and bootstrap nodes grow.
+        consensus.kawpowLimit = uint256S("00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         consensus.nPowTargetTimespan = 2016 * 60; // 1.4 days
         consensus.nPowTargetSpacing = 1 * 60;
 		consensus.fPowAllowMinDifficultyBlocks = false;
@@ -181,12 +183,17 @@ public:
         nDefaultPort = 5933;
         nPruneAfterHeight = 100000;
 
-        genesis = CreateGenesisBlock(1514999494, 25023712, 0x1e00ffff, 4, 5000 * COIN);
+        // M593 has its own chain history. Never reuse Ravencoin's genesis or
+        // its 2018 timestamp: doing so makes a new wallet appear years behind.
+        const char* pszM593Timestamp = "M593 Ecuador 19/Sep/2026 - Desde la mitad del mundo, una moneda para todos";
+        const CScript m593GenesisOutputScript = CScript() << ParseHex("03fc473b7bc0cd9176d73eca865e8d8595ef3c7121a5096f84541899b168633d93") << OP_CHECKSIG;
+        genesis = CreateGenesisBlock(pszM593Timestamp, m593GenesisOutputScript,
+                                     1789859533, 203702, 0x1e0fffff, 4, 5000 * COIN);
 
         consensus.hashGenesisBlock = genesis.GetX16RHash();
 
-        assert(consensus.hashGenesisBlock == uint256S("0000006b444bc2f2ffe627be9d9e7e7a0730000870ef6eb6da46c8eae389df90"));
-        assert(genesis.hashMerkleRoot == uint256S("28ff00a867739a352523808d301f504bc4547699398d70faf2266a8bae5f3516"));
+        assert(consensus.hashGenesisBlock == uint256S("0000021bf251dc8eb36503979a203d5277890e4c6e795bcfae81381fab407b26"));
+        assert(genesis.hashMerkleRoot == uint256S("d1862706fe7fc3ef593070e08e9fc4f9ec077ec5c823846dec18e96571530985"));
 
         // M593 mainnet DNS seeds will be added before public launch.
         vSeeds.clear();
@@ -205,29 +212,18 @@ public:
         fDefaultConsistencyChecks = false;
         fRequireStandard = true;
         fMineBlocksOnDemand = false;
-        fMiningRequiresPeers = true;
+        // Allow the first operators to mine the development chain before DNS
+        // seeds exist. Public releases will require peers again.
+        fMiningRequiresPeers = false;
 
-        checkpointData = (CCheckpointData) {
-            {
-                { 535721, uint256S("0x000000000001217f58a594ca742c8635ecaaaf695d1a63f6ab06979f1c159e04")},
-                { 697376, uint256S("0x000000000000499bf4ebbe61541b02e4692b33defc7109d8f12d2825d4d2dfa0")},
-                { 740000, uint256S("0x00000000000027d11bf1e7a3b57d3c89acc1722f39d6e08f23ac3a07e16e3172")},
-                { 909251, uint256S("0x000000000000694c9a363eff06518aa7399f00014ce667b9762f9a4e7a49f485")},
-                { 1040000, uint256S("0x000000000000138e2690b06b1ddd8cf158c3a5cf540ee5278debdcdffcf75839")},
-                { 1186833, uint256S("0x0000000000000d4840d4de1f7d943542c2aed532bd5d6527274fc0142fa1a410")},
-                { 2383550, uint256S("0x0000000000008927ed21a1e3bb87d3e1020646e8cc94354a1f8fc608395e15dc")}
-            }
-        };
+        checkpointData = (CCheckpointData) {{
+            {0, consensus.hashGenesisBlock}
+        }};
 
-		// 20969961 transactions as of block #2383625 at 2022-07-28 22:02:22 (UTC)
-		// previously set at 6709969 txns by time 1577939273 ==>
         chainTxData = ChainTxData{
-            // Update as we know more about the contents of the Raven chain
-            // Stats as of 0x00000000000016ec03d8d93f9751323bcc42137b1b4df67e6a11c4394fd8e5ad window size 43200
-            1659045742, // * UNIX timestamp of last known number of transactions
-            20969961,    // * total number of transactions between genesis and that timestamp
-                        //   (the tx=... number in the SetBestChain debug.log lines)
-            5.7       // * estimated number of transactions per second after that timestamp
+            1789859533,
+            1,
+            0.0
         };
 
         /** RVN Start **/
@@ -243,31 +239,32 @@ public:
         nAddNullQualifierTagBurnAmount = .1 * COIN;
 
         // Burn Addresses
-        strIssueAssetBurnAddress = "RXissueAssetXXXXXXXXXXXXXXXXXhhZGt";
-        strReissueAssetBurnAddress = "RXReissueAssetXXXXXXXXXXXXXXVEFAWu";
-        strIssueSubAssetBurnAddress = "RXissueSubAssetXXXXXXXXXXXXXWcwhwL";
-        strIssueUniqueAssetBurnAddress = "RXissueUniqueAssetXXXXXXXXXXWEAe58";
-        strIssueMsgChannelAssetBurnAddress = "RXissueMsgChanneLAssetXXXXXXSjHvAY";
-        strIssueQualifierAssetBurnAddress = "RXissueQuaLifierXXXXXXXXXXXXUgEDbC";
-        strIssueSubQualifierAssetBurnAddress = "RXissueSubQuaLifierXXXXXXXXXVTzvv5";
-        strIssueRestrictedAssetBurnAddress = "RXissueRestrictedXXXXXXXXXXXXzJZ1q";
-        strAddNullQualifierTagBurnAddress = "RXaddTagBurnXXXXXXXXXXXXXXXXZQm5ya";
+        strIssueAssetBurnAddress = "MMuDdQfUX9SdSEJuqTmLK1EA57n7pwwLAe";
+        strReissueAssetBurnAddress = "MNu6WVYnk4cJv5c2eYsiAFXQs2ubx7w4q4";
+        strIssueSubAssetBurnAddress = "MT8PgVqx7YD3dhSbamWGAxNSCuJ1MqiQrd";
+        strIssueUniqueAssetBurnAddress = "MBr8GwLBYX74M9SiFiaZK9TSP5umTbRZ69";
+        strIssueMsgChannelAssetBurnAddress = "MNeu7FbcNAUaVNeaZ4a3qmy3NVXemBcUud";
+        strIssueQualifierAssetBurnAddress = "MMGiC7jPEc3kurnAesdCSBjs3JjkkKeiTp";
+        strIssueSubQualifierAssetBurnAddress = "MLnWbfDsNiW7b6GRKLBuTk1CPdjYaNFfQC";
+        strIssueRestrictedAssetBurnAddress = "MSrRvLPeyeEFmepTssZzd8QJMbBKf9gFyN";
+        strAddNullQualifierTagBurnAddress = "MH89Qm26xJ9iNSLz68V555BwY9GAcgJYyN";
 
             //Global Burn Address
-        strGlobalBurnAddress = "RXBurnXXXXXXXXXXXXXXXXXXXXXXWUo9FV";
+        strGlobalBurnAddress = "MLwJH4iuTEv32otY5KRrPBY2ZgrmHYMSrm";
 
         // DGW Activation
-        nDGWActivationBlock = 338778;
+        nDGWActivationBlock = 1;
 
         nMaxReorganizationDepth = 60; // 60 at 1 minute block timespan is +/- 60 minutes.
         nMinReorganizationPeers = 4;
         nMinReorganizationAge = 60 * 60 * 12; // 12 hours
 
-        nAssetActivationHeight = 435456; // Asset activated block height
-        nMessagingActivationBlock = 1092672; // Messaging activated block height
-        nRestrictedActivationBlock = 1092672; // Restricted activated block height
+        nAssetActivationHeight = 0;
+        nMessagingActivationBlock = 0;
+        nRestrictedActivationBlock = 0;
 
-        nKAAAWWWPOWActivationTime = 1588788000; // UTC: Wed May 06 2020 18:00:00
+        // Genesis is X16R; every later timestamp uses KAWPOW.
+        nKAAAWWWPOWActivationTime = 1789859534;
         nKAWPOWActivationTime = nKAAAWWWPOWActivationTime;
         /** RVN End **/
     }

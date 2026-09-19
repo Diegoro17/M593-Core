@@ -189,7 +189,7 @@ RavenGUI::RavenGUI(const PlatformStyle *_platformStyle, const NetworkStyle *netw
     loadFonts();
 
 #if !defined(Q_OS_MAC)
-    this->setFont(QFont("Open Sans"));
+    this->setFont(QFont("Segoe UI", 10));
 #endif
 
     // Create actions for the toolbar, menu bar and tray/dock icon
@@ -317,12 +317,11 @@ void RavenGUI::loadFonts()
 void RavenGUI::createActions()
 {
     QFont font = QFont();
-    font.setPixelSize(22);
-    font.setLetterSpacing(QFont::SpacingType::AbsoluteSpacing, -0.43);
+    font.setPixelSize(19);
 #if !defined(Q_OS_MAC)
-    font.setFamily("Open Sans");
+    font.setFamily("Segoe UI");
 #endif
-    font.setWeight(QFont::Weight::ExtraLight);
+    font.setWeight(QFont::Weight::DemiBold);
 
     QActionGroup *tabGroup = new QActionGroup(this);
 
@@ -470,8 +469,8 @@ void RavenGUI::createActions()
     changePassphraseAction = new QAction(platformStyle->TextColorIcon(":/icons/key"), tr("&Change Passphrase..."), this);
     changePassphraseAction->setStatusTip(tr("Change the passphrase used for wallet encryption"));
 
-    getMyWordsAction = new QAction(platformStyle->TextColorIcon(":/icons/key"), tr("&Get my words..."), this);
-    getMyWordsAction->setStatusTip(tr("Show the recoverywords for this wallet"));
+    getMyWordsAction = new QAction(platformStyle->TextColorIcon(":/icons/key"), tr("&Ver palabras de recuperación..."), this);
+    getMyWordsAction->setStatusTip(tr("Mostrar las palabras de recuperación de este monedero"));
 
     signMessageAction = new QAction(platformStyle->TextColorIcon(":/icons/edit"), tr("Sign &message..."), this);
     signMessageAction->setStatusTip(tr("Sign messages with your M593 addresses to prove you own them"));
@@ -622,12 +621,17 @@ void RavenGUI::createToolBars()
         m_toolbar->addAction(sendCoinsAction);
         m_toolbar->addAction(receiveCoinsAction);
         m_toolbar->addAction(historyAction);
-        // Keep the first M593 release focused on the four essential wallet tasks.
-        // Advanced inherited asset tools remain available in the core for later review.
+        m_toolbar->addSeparator();
+        m_toolbar->addAction(createAssetAction);
+        m_toolbar->addAction(transferAssetAction);
+        m_toolbar->addAction(manageAssetAction);
+        m_toolbar->addAction(restrictedAssetAction);
+        // Messaging and voting are intentionally hidden until their workflows
+        // have dedicated M593 UX and end-to-end tests.
 //        m_toolbar->addAction(messagingAction);
 //        m_toolbar->addAction(votingAction);
 
-        QString openSansFontString = "font: 600 16pt \"Open Sans\";";
+        QString openSansFontString = "font: 600 15pt \"Segoe UI\";";
         QString normalString = "font: 600 16pt \"Arial\";";
         QString stringToUse = "";
 
@@ -686,9 +690,8 @@ void RavenGUI::createToolBars()
         headerWidget->setFixedHeight(75);
 
         QFont currentMarketFont;
-        currentMarketFont.setFamily("Open Sans");
+        currentMarketFont.setFamily("Segoe UI");
         currentMarketFont.setWeight(QFont::Weight::Normal);
-        currentMarketFont.setLetterSpacing(QFont::SpacingType::AbsoluteSpacing, -0.6);
         currentMarketFont.setPixelSize(18);
 
         // Set the pricing information

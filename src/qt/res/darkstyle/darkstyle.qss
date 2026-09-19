@@ -391,3 +391,61 @@ QProgressBar::chunk {
   background-color:#E4BC62;
   border-radius:5px;
 }
+QMenuBar {
+  background-color:#071F2B;
+  border-bottom:1px solid #24444A;
+  padding:3px;
+}
+QMenuBar::item {
+  color:#F7F3E8;
+  border-radius:6px;
+  padding:6px 10px;
+}
+QMenuBar::item:selected, QMenuBar::item:pressed {
+  color:#071F2B;
+  background-color:#E4BC62;
+  border:none;
+}
+QMenu {
+  color:#F7F3E8;
+  background-color:#0B1720;
+  border:1px solid #31565A;
+  border-radius:8px;
+  padding:5px;
+}
+QMenu::item {
+  border-radius:5px;
+  padding:7px 24px;
+}
+QMenu::item:selected {
+  color:#FFFFFF;
+  background-color:#0F766E;
+  border-color:#278C82;
+}
+QTreeView, QTableView, QTreeWidget, QListView {
+  color:#F7F3E8;
+  background-color:#0B1720;
+  alternate-background-color:#0E2630;
+  border:1px solid #31565A;
+  border-radius:8px;
+  selection-color:#FFFFFF;
+  selection-background-color:#0F766E;
+  padding:4px;
+}
+QTreeView QHeaderView::section, QTableView QHeaderView::section {
+  color:#E4BC62;
+  background-color:#102C35;
+  border:none;
+  border-bottom:1px solid #31565A;
+  padding:8px;
+  font-weight:600;
+}
+QTabBar::tab:selected {
+  color:#E4BC62;
+  border-bottom:2px solid #E4BC62;
+}
+QStatusBar {
+  color:#BFD0D0;
+  background-color:#061820;
+  border-top:1px solid #24444A;
+}

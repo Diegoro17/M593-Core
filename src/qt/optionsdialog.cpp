@@ -118,6 +118,9 @@ OptionsDialog::OptionsDialog(QWidget *parent, bool enableWallet) :
     for(int unitNum = 0; unitNum < CurrencyUnits::count() ; unitNum++) {
         ui->currencyUnitIndex->addItem(QString(CurrencyUnits::CurrencyOptions[unitNum].Header), unitNum);
     }
+    // M593 does not publish market conversion data during development.
+    ui->currencyUnitIndexLabel->hide();
+    ui->currencyUnitIndex->hide();
 
     /* Widget-to-option mapper */
     mapper = new QDataWidgetMapper(this);

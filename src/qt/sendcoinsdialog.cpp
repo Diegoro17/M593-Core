@@ -217,7 +217,7 @@ SendCoinsDialog::~SendCoinsDialog()
 void SendCoinsDialog::setupCoinControl(const PlatformStyle *platformStyle)
 {
     /** Update the coincontrol frame */
-    ui->frameCoinControl->setStyleSheet(QString(".QFrame {background-color: %1; padding-top: 10px; padding-right: 5px; border: none;}").arg(platformStyle->WidgetBackGroundColor().name()));
+    ui->frameCoinControl->setStyleSheet(QString(".QFrame {background-color: %1; padding: 14px; border: 1px solid #31565A; border-radius: 14px;}").arg(platformStyle->WidgetBackGroundColor().name()));
     ui->widgetCoinControl->setStyleSheet(".QWidget {background-color: transparent;}");
     /** Create the shadow effects on the frames */
 
@@ -893,7 +893,7 @@ void SendCoinsDialog::coinControlChangeEdited(const QString& text)
         }
         else if (!IsValidDestination(dest)) // Invalid address
         {
-            ui->labelCoinControlChangeLabel->setText(tr("Warning: Invalid Raven address"));
+            ui->labelCoinControlChangeLabel->setText(tr("Warning: Invalid M593 address"));
         }
         else // Valid address
         {

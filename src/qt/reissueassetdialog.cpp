@@ -525,7 +525,7 @@ void ReissueAssetDialog::CheckFormState()
     const CTxDestination dest = DecodeDestination(ui->addressText->text().toStdString());
     if (!ui->addressText->text().isEmpty()) {
         if (!IsValidDestination(dest)) {
-            showMessage(tr("Invalid Raven Destination Address"));
+            showMessage(tr("Invalid M593 destination address"));
             return;
         }
     }
@@ -560,7 +560,7 @@ void ReissueAssetDialog::CheckFormState()
 
             if (fHasQuantity && !IsValidDestination(dest)) {
                 ui->addressText->setStyleSheet(STYLE_INVALID);
-                showMessage(tr("Warning: Invalid Raven address"));
+                showMessage(tr("Warning: Invalid M593 address"));
                 return;
             }
 
@@ -983,7 +983,7 @@ void ReissueAssetDialog::onReissueAssetClicked()
     QStringList formatted;
 
     // generate bold amount string
-    QString amount = "<b>" + QString::fromStdString(ValueFromAmountString(GetReissueAssetBurnAmount(), 8)) + " RVN";
+    QString amount = "<b>" + QString::fromStdString(ValueFromAmountString(GetReissueAssetBurnAmount(), 8)) + " M593";
     amount.append("</b>");
     // generate monospace address string
     QString addressburn = "<span style='font-family: monospace;'>" + QString::fromStdString(GetParams().ReissueAssetBurnAddress());
@@ -1241,7 +1241,7 @@ void ReissueAssetDialog::coinControlChangeEdited(const QString& text)
         }
         else if (!IsValidDestination(dest)) // Invalid address
         {
-            ui->labelCoinControlChangeLabel->setText(tr("Warning: Invalid Raven address"));
+            ui->labelCoinControlChangeLabel->setText(tr("Warning: Invalid M593 address"));
         }
         else // Valid address
         {
@@ -1490,5 +1490,3 @@ void ReissueAssetDialog::hideInvalidVerifierStringMessage()
     ui->labelReissueVerifierStringErrorMessage->clear();
     ui->labelReissueVerifierStringErrorMessage->hide();
 }
-
-

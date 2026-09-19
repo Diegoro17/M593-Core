@@ -128,7 +128,7 @@ void ReceiveCoinsDialog::accept()
 void ReceiveCoinsDialog::setupRequestFrame(const PlatformStyle *platformStyle)
 {
     /** Update the coincontrol frame */
-    ui->frame2->setStyleSheet(QString(".QFrame {background-color: %1; border: none;}").arg(platformStyle->WidgetBackGroundColor().name()));
+    ui->frame2->setStyleSheet(QString(".QFrame {background-color: %1; padding: 14px; border: 1px solid #31565A; border-radius: 14px;}").arg(platformStyle->WidgetBackGroundColor().name()));
     /** Create the shadow effects on the frames */
 
     ui->frame2->setGraphicsEffect(GUIUtil::getShadowEffect());
@@ -167,7 +167,7 @@ void ReceiveCoinsDialog::setupRequestFrame(const PlatformStyle *platformStyle)
 void ReceiveCoinsDialog::setupHistoryFrame(const PlatformStyle *platformStyle)
 {
     /** Update the coincontrol frame */
-    ui->frame->setStyleSheet(QString(".QFrame {background-color: %1; border: none;}").arg(platformStyle->WidgetBackGroundColor().name()));
+    ui->frame->setStyleSheet(QString(".QFrame {background-color: %1; padding: 14px; border: 1px solid #31565A; border-radius: 14px;}").arg(platformStyle->WidgetBackGroundColor().name()));
     /** Create the shadow effects on the frames */
 
     ui->frame->setGraphicsEffect(GUIUtil::getShadowEffect());

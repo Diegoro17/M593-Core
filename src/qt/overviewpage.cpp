@@ -357,9 +357,13 @@ OverviewPage::OverviewPage(const PlatformStyle *platformStyle, QWidget *parent) 
     connect(ui->labelTransactionsStatus, SIGNAL(clicked()), this, SLOT(handleOutOfSyncWarningClicks()));
 
     /** Set the overview page background colors, and the frames colors and padding */
-    ui->assetFrame->setStyleSheet(QString(".QFrame {background-color: %1; padding-top: 10px; padding-right: 5px;}").arg(platformStyle->WidgetBackGroundColor().name()));
-    ui->frame->setStyleSheet(QString(".QFrame {background-color: %1; padding-bottom: 10px; padding-right: 5px;}").arg(platformStyle->WidgetBackGroundColor().name()));
-    ui->frame_2->setStyleSheet(QString(".QFrame {background-color: %1; padding-left: 5px;}").arg(platformStyle->WidgetBackGroundColor().name()));
+    const QString cardStyle = QString(
+        ".QFrame {background-color: %1; border: 1px solid #31565A; "
+        "border-radius: 14px; padding: 14px;}"
+    ).arg(platformStyle->WidgetBackGroundColor().name());
+    ui->assetFrame->setStyleSheet(cardStyle);
+    ui->frame->setStyleSheet(cardStyle);
+    ui->frame_2->setStyleSheet(cardStyle);
 
     /** Create the shadow effects on the frames */
     ui->assetFrame->setGraphicsEffect(GUIUtil::getShadowEffect());
@@ -367,15 +371,15 @@ OverviewPage::OverviewPage(const PlatformStyle *platformStyle, QWidget *parent) 
     ui->frame_2->setGraphicsEffect(GUIUtil::getShadowEffect());
 
     /** Update the labels colors */
-    ui->assetBalanceLabel->setStyleSheet(STRING_LABEL_COLOR);
-    ui->rvnBalancesLabel->setStyleSheet(STRING_LABEL_COLOR);
+    ui->assetBalanceLabel->setStyleSheet("color: #E4BC62; font-weight: 700;");
+    ui->rvnBalancesLabel->setStyleSheet("color: #E4BC62; font-weight: 700;");
     ui->labelBalanceText->setStyleSheet(STRING_LABEL_COLOR);
     ui->labelPendingText->setStyleSheet(STRING_LABEL_COLOR);
     ui->labelImmatureText->setStyleSheet(STRING_LABEL_COLOR);
     ui->labelTotalText->setStyleSheet(STRING_LABEL_COLOR);
     ui->labelSpendable->setStyleSheet(STRING_LABEL_COLOR);
     ui->labelWatchonly->setStyleSheet(STRING_LABEL_COLOR);
-    ui->recentTransactionsLabel->setStyleSheet(STRING_LABEL_COLOR);
+    ui->recentTransactionsLabel->setStyleSheet("color: #E4BC62; font-weight: 700;");
 
     /** Update the labels font */
     ui->rvnBalancesLabel->setFont(GUIUtil::getTopLabelFont());

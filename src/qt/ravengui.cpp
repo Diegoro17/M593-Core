@@ -108,11 +108,11 @@ const QString RavenGUI::DEFAULT_WALLET = "~Default";
 /* Bit of a bodge, c++ really doesn't want you to predefine values
  * in only header files, so we do one-time value assignment here. */
 std::array<CurrencyUnitDetails, 5> CurrencyUnits::CurrencyOptions = { {
-    { "BTC",    "RVNBTC"  , 1,          8},
-    { "mBTC",   "RVNBTC"  , 1000,       5},
-    { "µBTC",   "RVNBTC"  , 1000000,    2},
-    { "Satoshi","RVNBTC"  , 100000000,  0},
-    { "USDT",   "RVNUSDT" , 1,          5}
+    { "M593",      "M593"    , 1,          8},
+    { "mM593",     "M593"    , 1000,       5},
+    { "µM593",     "M593"    , 1000000,    2},
+    { "unidad",    "M593"    , 100000000,  0},
+    { "USD",       "M593USD" , 1,          5}
 } };
 
 static bool ThreadSafeMessageBox(RavenGUI *gui, const std::string& message, const std::string& caption, unsigned int style);
@@ -376,7 +376,7 @@ void RavenGUI::createActions()
     tabGroup->addAction(createAssetAction);
 
     transferAssetAction = new QAction(platformStyle->SingleColorIconOnOff(":/icons/asset_transfer_selected", ":/icons/asset_transfer"), tr("&Transfer Assets"), this);
-    transferAssetAction->setStatusTip(tr("Transfer assets to RVN addresses"));
+    transferAssetAction->setStatusTip(tr("Transfer assets to M593 addresses"));
     transferAssetAction->setToolTip(transferAssetAction->statusTip());
     transferAssetAction->setCheckable(true);
     transferAssetAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_6));
@@ -474,9 +474,9 @@ void RavenGUI::createActions()
     getMyWordsAction->setStatusTip(tr("Show the recoverywords for this wallet"));
 
     signMessageAction = new QAction(platformStyle->TextColorIcon(":/icons/edit"), tr("Sign &message..."), this);
-    signMessageAction->setStatusTip(tr("Sign messages with your Raven addresses to prove you own them"));
+    signMessageAction->setStatusTip(tr("Sign messages with your M593 addresses to prove you own them"));
     verifyMessageAction = new QAction(platformStyle->TextColorIcon(":/icons/verify"), tr("&Verify message..."), this);
-    verifyMessageAction->setStatusTip(tr("Verify messages to ensure they were signed with specified Raven addresses"));
+    verifyMessageAction->setStatusTip(tr("Verify messages to ensure they were signed with specified M593 addresses"));
 
     openRPCConsoleAction = new QAction(platformStyle->TextColorIcon(":/icons/debugwindow"), tr("&Debug Window"), this);
     openRPCConsoleAction->setStatusTip(tr("Open debugging and diagnostic console"));
@@ -492,11 +492,11 @@ void RavenGUI::createActions()
     usedReceivingAddressesAction->setStatusTip(tr("Show the list of used receiving addresses and labels"));
 
     openAction = new QAction(platformStyle->TextColorIcon(":/icons/open"), tr("Open &URI..."), this);
-    openAction->setStatusTip(tr("Open a raven: URI or payment request"));
+    openAction->setStatusTip(tr("Open an M593 payment URI or payment request"));
 
     showHelpMessageAction = new QAction(platformStyle->TextColorIcon(":/icons/info"), tr("&Command-line options"), this);
     showHelpMessageAction->setMenuRole(QAction::NoRole);
-    showHelpMessageAction->setStatusTip(tr("Show the %1 help message to get a list with possible Raven command-line options").arg(tr(PACKAGE_NAME)));
+    showHelpMessageAction->setStatusTip(tr("Show the %1 help message to get a list of M593 command-line options").arg(tr(PACKAGE_NAME)));
 
     connect(quitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
     connect(aboutAction, SIGNAL(triggered()), this, SLOT(aboutClicked()));
@@ -627,8 +627,8 @@ void RavenGUI::createToolBars()
 //        m_toolbar->addAction(messagingAction);
 //        m_toolbar->addAction(votingAction);
 
-        QString openSansFontString = "font: normal 22pt \"Open Sans\";";
-        QString normalString = "font: normal 22pt \"Arial\";";
+        QString openSansFontString = "font: 600 16pt \"Open Sans\";";
+        QString normalString = "font: 600 16pt \"Arial\";";
         QString stringToUse = "";
 
 #if !defined(Q_OS_MAC)
@@ -639,7 +639,7 @@ void RavenGUI::createToolBars()
 
         /** RVN START */
         QString tbStyleSheet = ".QToolBar {background-color : transparent; border-color: transparent; }  "
-                               ".QToolButton {background-color: transparent; border-color: transparent; width: 249px; color: %1; border: none;} "
+                               ".QToolButton {background-color: transparent; border-color: transparent; width: 224px; color: %1; border: none; padding: 8px 12px;} "
                                ".QToolButton:checked {background: none; background-color: none; selection-background-color: none; color: %2; border: none; font: %4} "
                                ".QToolButton:hover {background: none; background-color: none; border: none; color: %3;} "
                                ".QToolButton:disabled {color: gray;}";
@@ -698,7 +698,7 @@ void RavenGUI::createToolBars()
         priceLayout->setAlignment(Qt::AlignVCenter);
         labelCurrentMarket->setContentsMargins(50,0,0,0);
         labelCurrentMarket->setAlignment(Qt::AlignVCenter);
-        labelCurrentMarket->setStyleSheet(STRING_LABEL_COLOR);
+        labelCurrentMarket->setStyleSheet("color: #FFF7E2; font-weight: 600;");
         labelCurrentMarket->setFont(currentMarketFont);
         labelCurrentMarket->setText(tr("M593 • Desde la mitad del mundo"));
 
@@ -718,6 +718,19 @@ void RavenGUI::createToolBars()
         comboRvnUnit->setContentsMargins(5,0,0,0);
         comboRvnUnit->setStyleSheet(STRING_LABEL_COLOR);
         comboRvnUnit->setFont(currentMarketFont);
+        // The inherited market-price selector has no valid data source for M593
+        // during development. Keep it hidden instead of exposing BTC/RVN choices.
+        comboRvnUnit->hide();
+        labelCurrentPrice->hide();
+
+        QLabel* networkStageBadge = new QLabel(tr("RED DE DESARROLLO"), headerWidget);
+        networkStageBadge->setAlignment(Qt::AlignCenter);
+        networkStageBadge->setStyleSheet(
+            "color: #E4BC62; background-color: #0B1720; "
+            "border: 1px solid #C8942E; border-radius: 10px; "
+            "font: 700 10pt 'Open Sans'; padding: 6px 12px;"
+        );
+        networkStageBadge->setToolTip(tr("M593 is still a development network. Do not use it with real funds."));
 
         labelVersionUpdate->setText("<a href=\"https://github.com/Diegoro17/M593-Core/releases\">New M593 Wallet version available</a>");
         labelVersionUpdate->setTextFormat(Qt::RichText);
@@ -732,6 +745,7 @@ void RavenGUI::createToolBars()
         priceLayout->setGeometry(headerWidget->rect());
         priceLayout->addWidget(labelCurrentMarket, 0, Qt::AlignVCenter | Qt::AlignLeft);
         priceLayout->addStretch();
+        priceLayout->addWidget(networkStageBadge, 0, Qt::AlignVCenter | Qt::AlignRight);
         priceLayout->addWidget(labelVersionUpdate, 0 , Qt::AlignVCenter | Qt::AlignRight);
 
         // Create the layout for widget to the right of the tool bar
@@ -1233,7 +1247,7 @@ void RavenGUI::updateNetworkState()
     QString tooltip;
 
     if (clientModel->getNetworkActive()) {
-        tooltip = tr("%n active connection(s) to Raven network", "", count) + QString(".<br>") + tr("Click to disable network activity.");
+        tooltip = tr("%n active connection(s) to the M593 network", "", count) + QString(".<br>") + tr("Click to disable network activity.");
     } else {
         tooltip = tr("Network activity disabled.") + QString("<br>") + tr("Click to enable network activity again.");
         icon = ":/icons/network_disabled";
@@ -1378,7 +1392,7 @@ void RavenGUI::setNumBlocks(int count, const QDateTime& blockDate, double nVerif
 
 void RavenGUI::message(const QString &title, const QString &message, unsigned int style, bool *ret)
 {
-    QString strTitle = tr("Raven"); // default title
+    QString strTitle = tr("M593"); // default title
     // Default to information icon
     int nMBoxIcon = QMessageBox::Information;
     int nNotifyIcon = Notificator::Information;
@@ -1510,7 +1524,7 @@ void RavenGUI::checkAssets()
     // Check that status of RIP2 and activate the assets icon if it is active
     if(AreAssetsDeployed()) {
         transferAssetAction->setDisabled(false);
-        transferAssetAction->setToolTip(tr("Transfer assets to RVN addresses"));
+        transferAssetAction->setToolTip(tr("Transfer assets to M593 addresses"));
         createAssetAction->setDisabled(false);
         createAssetAction->setToolTip(tr("Create new assets"));
         manageAssetAction->setDisabled(false);

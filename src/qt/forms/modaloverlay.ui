@@ -149,7 +149,7 @@ QLabel { color: rgb(40,40,40);  }</string>
                 </font>
                </property>
                <property name="text">
-                <string>Attempting to spend ravens that are affected by not-yet-displayed transactions will not be accepted by the network.</string>
+                <string>The network will not accept attempts to spend M593 affected by transactions that are not yet displayed.</string>
                </property>
                <property name="textFormat">
                 <enum>Qt::RichText</enum>

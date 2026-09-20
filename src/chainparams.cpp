@@ -123,10 +123,12 @@ public:
         consensus.nBIP66Enabled = true;
         consensus.nSegwitEnabled = true;
         consensus.nCSVEnabled = true;
-        consensus.powLimit = uint256S("00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
+        // Development-chain limit. This intentionally keeps local CPU mining
+        // fast enough to exercise rewards, transfers and assets before launch.
+        consensus.powLimit = uint256S("000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         // M593 begins as a small development network. Keep the first KAWPOW
         // blocks mineable while the public hashrate and bootstrap nodes grow.
-        consensus.kawpowLimit = uint256S("00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
+        consensus.kawpowLimit = uint256S("000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         consensus.nPowTargetTimespan = 2016 * 60; // 1.4 days
         consensus.nPowTargetSpacing = 1 * 60;
 		consensus.fPowAllowMinDifficultyBlocks = false;

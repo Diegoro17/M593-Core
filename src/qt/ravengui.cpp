@@ -1334,6 +1334,30 @@ void RavenGUI::setNumBlocks(int count, const QDateTime& blockDate, double nVerif
 
     tooltip = tr("Processed %n block(s) of transaction history.", "", count);
 
+    // A brand-new local M593 chain only has the genesis block and no peers.
+    // Showing the genesis age as synchronization lag is misleading: there is
+    // no missing history yet. Present the actual development-network state.
+    if (count == 0 && clientModel->getNumConnections() == 0 && blockSource == BLOCK_SOURCE_NONE)
+    {
+        progressBarLabel->setText(tr("Local development network — genesis ready"));
+        progressBarLabel->setVisible(true);
+        progressBar->setFormat(tr("Waiting for the first M593 block"));
+        progressBar->setMaximum(1);
+        progressBar->setValue(0);
+        progressBar->setVisible(true);
+        labelBlocksIcon->setPixmap(platformStyle->SingleColorIcon(":/icons/synced").pixmap(STATUSBAR_ICONSIZE, STATUSBAR_ICONSIZE));
+        labelBlocksIcon->setToolTip(tr("M593 genesis block is ready. No peers are connected."));
+
+#ifdef ENABLE_WALLET
+        if(walletFrame)
+        {
+            walletFrame->showOutOfSyncWarning(false);
+            modalOverlay->showHide(true, true);
+        }
+#endif // ENABLE_WALLET
+        return;
+    }
+
     // Set icon state: spinning if catching up, tick otherwise
     if(secs < 90*60)
     {

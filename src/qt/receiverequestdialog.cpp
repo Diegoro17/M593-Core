@@ -13,11 +13,13 @@
 #include "walletmodel.h"
 
 #include <QClipboard>
+#include <QDialogButtonBox>
 #include <QDrag>
 #include <QMenu>
 #include <QMimeData>
 #include <QMouseEvent>
 #include <QPixmap>
+#include <QPushButton>
 #if QT_VERSION < 0x050000
 #include <QUrl>
 #endif
@@ -108,6 +110,8 @@ ReceiveRequestDialog::ReceiveRequestDialog(QWidget *parent) :
     ui->btnCopyAddress->setFont(GUIUtil::getSubLabelFont());
     ui->btnSaveAs->setFont(GUIUtil::getSubLabelFont());
     ui->buttonBox->setFont(GUIUtil::getSubLabelFont());
+    if (QPushButton* closeButton = ui->buttonBox->button(QDialogButtonBox::Close))
+        closeButton->setText(tr("Cerrar"));
 }
 
 ReceiveRequestDialog::~ReceiveRequestDialog()

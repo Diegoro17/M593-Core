@@ -652,6 +652,18 @@
 </context>
 <context>
     <name>CreateAssetDialog</name>
+    <message><source>Asset Type</source><translation>Tipo de activo</translation></message>
+    <message><source>Main Asset</source><translation>Activo principal</translation></message>
+    <message><source>Sub Asset</source><translation>Subactivo</translation></message>
+    <message><source>Unique Asset</source><translation>Activo único</translation></message>
+    <message><source>Messaging Channel Asset</source><translation>Canal de mensajería</translation></message>
+    <message><source>Qualifier Asset</source><translation>Activo calificador</translation></message>
+    <message><source>Sub Qualifier Asset</source><translation>Subcalificador</translation></message>
+    <message><source>Restricted Asset</source><translation>Activo restringido</translation></message>
+    <message><source>Reissuable</source><translation>Permitir reemisión</translation></message>
+    <message><source>Name:</source><translation>Nombre:</translation></message>
+    <message><source>Quantity:</source><translation>Cantidad:</translation></message>
+    <message><source>Units:</source><translation>Decimales:</translation></message>
     <message>
         <source>Request Replace-By-Fee</source>
         <translation>Solicita "Reemplazo-por-fee"</translation>
@@ -1394,6 +1406,48 @@
         <source>%1 and %2</source>
         <translation>%1 y %2</translation>
     </message>
+    <message numerus="yes">
+        <source>%n second(s)</source>
+        <translation>
+            <numerusform>%n segundo</numerusform>
+            <numerusform>%n segundos</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n minute(s)</source>
+        <translation>
+            <numerusform>%n minuto</numerusform>
+            <numerusform>%n minutos</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n hour(s)</source>
+        <translation>
+            <numerusform>%n hora</numerusform>
+            <numerusform>%n horas</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n day(s)</source>
+        <translation>
+            <numerusform>%n día</numerusform>
+            <numerusform>%n días</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n week(s)</source>
+        <translation>
+            <numerusform>%n semana</numerusform>
+            <numerusform>%n semanas</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n year(s)</source>
+        <translation>
+            <numerusform>%n año</numerusform>
+            <numerusform>%n años</numerusform>
+        </translation>
+    </message>
     <message>
         <source>%1 didn't yet exit safely...</source>
         <translation>%1 no se ha cerrado de forma segura todavía...</translation>
@@ -2063,6 +2117,18 @@
         <translation>Conectando a pares...</translation>
     </message>
     <message>
+        <source>Local development network — genesis ready</source>
+        <translation>Red de desarrollo local — génesis listo</translation>
+    </message>
+    <message>
+        <source>Waiting for the first M593 block</source>
+        <translation>Esperando el primer bloque M593</translation>
+    </message>
+    <message>
+        <source>M593 genesis block is ready. No peers are connected.</source>
+        <translation>El bloque génesis de M593 está listo. No hay pares conectados.</translation>
+    </message>
+    <message>
         <source>Catching up...</source>
         <translation>Actualizando...</translation>
     </message>
@@ -2228,7 +2294,7 @@
     </message>
     <message>
         <source>Copy &amp;URI</source>
-        <translation>Copiar &amp;URI</translation>
+        <translation>Copiar solicitud &amp;completa</translation>
     </message>
     <message>
         <source>Copy &amp;Address</source>
@@ -2308,6 +2374,11 @@
 </context>
 <context>
     <name>ReissueAssetDialog</name>
+    <message><source>Reissue Asset</source><translation>Reemitir activo</translation></message>
+    <message><source>Clear</source><translation>Vaciar</translation></message>
+    <message><source>Reissuable</source><translation>Permitir reemisión</translation></message>
+    <message><source>Current Asset Settings</source><translation>Configuración actual del activo</translation></message>
+    <message><source>Updated Asset Settings</source><translation>Configuración propuesta del activo</translation></message>
     <message>
         <source>Coin Control Features</source>
         <translation>Características de control de moneda</translation>
@@ -2339,9 +2410,20 @@
     </context>
 <context>
     <name>RestrictedAssetsDialog</name>
+    <message><source>Asset Balances</source><translation>Saldos de activos</translation></message>
+    <message><source>Search</source><translation>Buscar</translation></message>
+    <message><source>Address List</source><translation>Lista de direcciones</translation></message>
+    <message><source>Balance:</source><translation>Saldo:</translation></message>
     </context>
 <context>
     <name>SendAssetsEntry</name>
+    <message><source>Asset:</source><translation>Activo:</translation></message>
+    <message><source>Amount:</source><translation>Cantidad:</translation></message>
+    <message><source>&amp;Label:</source><translation>&amp;Etiqueta:</translation></message>
+    <message><source>Transfer &amp;To:</source><translation>Transferir &amp;a:</translation></message>
+    <message><source>Memo:</source><translation>Referencia:</translation></message>
+    <message><source>Transfer Administrator Asset</source><translation>Transferir el activo de administración</translation></message>
+    <message><source>Select an asset to transfer</source><translation>Seleccione un activo para transferir</translation></message>
     </context>
 <context>
     <name>SendCoinsDialog</name>
@@ -2404,6 +2486,10 @@
     <message>
         <source>Choose...</source>
         <translation>Elija...</translation>
+    </message>
+    <message>
+        <source>Warning: Fee estimation is currently not possible.</source>
+        <translation>Aviso: todavía no es posible estimar automáticamente la comisión.</translation>
     </message>
     <message>
         <source>collapse fee-settings</source>
@@ -2592,6 +2678,14 @@
 </context>
 <context>
     <name>SendCoinsEntry</name>
+    <message>
+        <source>Send &amp;To:</source>
+        <translation>Enviar &amp;a:</translation>
+    </message>
+    <message>
+        <source>Send to:</source>
+        <translation>Enviar a:</translation>
+    </message>
     <message>
         <source>A&amp;mount:</source>
         <translation>Ca&amp;ntidad:</translation>
@@ -3023,6 +3117,14 @@
     <message>
         <source>Label</source>
         <translation>Etiqueta</translation>
+    </message>
+    <message>
+        <source>Amount</source>
+        <translation>Cantidad</translation>
+    </message>
+    <message>
+        <source>Asset</source>
+        <translation>Activo</translation>
     </message>
     <message>
         <source>Open until %1</source>

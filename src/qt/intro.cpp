@@ -196,6 +196,18 @@ bool Intro::pickDataDirectory()
         return true;
     /* 1) Default data directory for operating system */
     QString dataDir = getDefaultDataDirectory();
+
+    // Qt remembers a previously selected data directory outside the normal
+    // configuration file. M593 Chain 1 has a different genesis block, so an
+    // inherited Raven/M593 development directory must never override the new
+    // default on the first launch. Keep the old directory untouched; only
+    // migrate the saved pointer to the isolated Chain 1 directory.
+    const QString chainIdentity = QStringLiteral("m593-chain1");
+    if (settings.value("strM593ChainIdentity").toString() != chainIdentity) {
+        settings.setValue("strDataDir", dataDir);
+        settings.setValue("strM593ChainIdentity", chainIdentity);
+    }
+
     /* 2) Allow QSettings to override default dir */
     dataDir = settings.value("strDataDir", dataDir).toString();
 
